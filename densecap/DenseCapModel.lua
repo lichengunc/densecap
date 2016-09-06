@@ -517,9 +517,10 @@ end
 Input: 
 - image: (1, 3, H, W)
 Returns:
-- boxes_scores: (N, 5), i.e., x1y1x2y2sc
+- xcycwh      : (N, 4)
+- scores      : (N, 1)
 - seqs        : (N, 15) giving sequence of token idxs
-- roi_codes    : (N, 4096)
+- roi_codes   : (N, 4096)
 - hidden_codes: (N, 512) hidden outputs at <END> token
 - captions    : Array of length N giving output captions, decoded as strings
 ]]
@@ -539,16 +540,15 @@ function DenseCapModel:extractAllFeatures(input)
   boxes_scores[{{}, 5}]:copy(class_scores_float)
   local idx = box_utils.nms(boxes_scores, self.opt.final_nms_thresh)
 
-  boxes_scores = boxes_scores:index(1, idx):typeAs(self.output[4])
+  local boxes_xcycwh = final_boxes_float:index(1, idx):typeAs(self.output[4])
+  local objectness_scores = class_scores_float:index(1, idx):typeAs(self.output[1])
   local roi_codes = self.nets.recog_base.output:float():index(1, idx):typeAs(self.output[4])
   -- feed roi_codes to LSTM
   local seqs, hidden_codes = unpack(self.nets.language_model:sample_with_hidden(roi_codes))
   local captions = self.nets.language_model:decodeSequence(seqs)
 
-  return {boxes_scores, seqs, roi_codes, hidden_codes, captions}
+  return {boxes_xcycwh, objectness_scores, seqs, roi_codes, hidden_codes, captions}
 end
-
-
 
 
 
