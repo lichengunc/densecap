@@ -55,8 +55,8 @@ local captions = output[6]
 -- print('Is sum of hidden_codes equal to hidden_codes2?', hidden_codes:sum() == hidden_codes2:sum())
 
 local output2 = model:forward_test_beams(img_caffe, 5, true)
-local beam_hidden_codes = output2[3]
-local captions2 = output2[2]
+local beam_hidden_codes = output2[6]
+local captions2 = output2[5]
 print(captions2)
 
 -- print(hidden_codes[{ {1}, {1, 50} }]:view(5, 10))

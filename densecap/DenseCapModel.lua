@@ -600,6 +600,9 @@ end
 --[[
 Input: Tensor of shape (1, 3, H, W) giving pixels for an input image.
 Returns:
+- xcycwh      : (N, 4)
+- scores      : (N, 1)
+- roi_codes   : (N, 4096)
 - beam_seqs: list of {seq}, each seq is of size (beam_size, 15)
 - beam_captions: list of {captions}, each captions consists of beam_size captions
 - beam_hidden_codes: list of {hidden_codes}, each hidden_codes is of size (beam_size, 512)
@@ -648,9 +651,9 @@ function DenseCapModel:forward_test_beams(input, beam_size, fetch_hidden_codes)
     end
   end
   -- reset beam_size
-  model.nets.language_model.beam_size = nil
+  self.nets.language_model.beam_size = nil
   -- return
-  return {beam_seqs, beam_captions, beam_hidden_codes}
+  return {boxes_xcycwh, objectness_scores, roi_codes, beam_seqs, beam_captions, beam_hidden_codes}
 end
 
 

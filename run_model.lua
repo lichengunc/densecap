@@ -46,6 +46,7 @@ cmd:option('-vg_img_root_dir', '', 'root directory for vg images')
 
 -- Output settings
 cmd:option('-max_images', 100, 'max number of images to process')
+cmd:option('-beam_size', 1, 'beam size for beam search')
 cmd:option('-output_dir', '')
     -- these settings are only used if output_dir is not empty
     cmd:option('-num_to_draw', 10, 'max number of predictions per image')
@@ -73,6 +74,11 @@ function run_image(model, img_path, opt, dtype)
   vgg_mean = vgg_mean:view(1, 3, 1, 1):expand(1, 3, H, W)
   img_caffe:add(-1, vgg_mean)
 
+  -- Set beam size
+  if opt.beam_size > 1 then
+    model.nets.language_model.beam_size = opt.beam_size
+  end
+  
   -- Run the model forward
   local boxes, scores, captions = model:forward_test(img_caffe:type(dtype))
   local boxes_xywh = box_utils.xcycwh_to_xywh(boxes)
@@ -83,6 +89,9 @@ function run_image(model, img_path, opt, dtype)
     scores = scores,
     captions = captions,
   }
+  -------For Test--------
+  print(captions)
+  -----------------------
   return out
 end
 
