@@ -1,13 +1,13 @@
 #DenseCap
 
 ## Licheng's functions
-- LanguageModel:sample_with_hidden(image_vectors) returns ``seqs`` and ``endH`` that is the last-time hidden output.
-- languageModel:extract_hidden(image_vectors, seq) takes image representation and caption as inputs then return the last-time hidden output at <END> token.
-- languageModel:beamsearch(image_vectors, beam_size) now return top-K captions instead of just one caption.
-- DenseCapModel:forward_boxes(image, roi_boxes) returns features and information of given bounding boxes.
-- DenseCapModel:extractAllFeatures(image) returns all kinds of features, including ``boxes_scores``, ``seqs``, ``roi_codes``, ``hidden_codes`` and ``captions``.
-- DenseCapModel:forward_boxes_beams(image, roi_boxes) returns features and information given bounding boxes, where the beams' hidden codes and captions are included.
-- DenseCapModel:forward_test_beams(input, beam_size) returns boxes, objectness scores, roi_codes and beams' seqs, captions and hidden_codes.
+- ``LanguageModel:sample_with_hidden(image_vectors)`` returns ``seqs`` and ``endH`` that is the last-time hidden output.
+- ``languageModel:extract_hidden(image_vectors, seq) ``takes image representation and caption as inputs then return the last-time hidden output at <END> token.
+- ``languageModel:beamsearch(image_vectors, beam_size)`` now return top-K captions instead of just one caption.
+- ``DenseCapModel:forward_boxes(image, roi_boxes)`` returns features and information of given bounding boxes.
+- ``DenseCapModel:extractAllFeatures(image)`` returns all kinds of features, including ``boxes_scores``, ``seqs``, ``roi_codes``, ``hidden_codes`` and ``captions``.
+- ``DenseCapModel:forward_boxes_beams(image, roi_boxes)`` returns features and information given bounding boxes, where the beams' hidden codes and captions are included.
+- ``DenseCapModel:forward_test_beams(input, beam_size)`` returns boxes, objectness scores, roi_codes and beams' seqs, captions and hidden_codes.
 
 ## Introduction
 This is the code for the paper
