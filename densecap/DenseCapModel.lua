@@ -540,7 +540,7 @@ function DenseCapModel:forward_boxes_beams(input, roi_boxes, beam_size)
   local roi_codes = self.nets.recog_base:forward(roi_feats)
   local objectness_scores = self.nets.objectness_branch:forward(roi_codes)
   -- feed roi_codes to LSTM to get beam_size captions
-  model.nets.language_model.beam_size = beam_size
+  self.nets.language_model.beam_size = beam_size
   local _, Done_beams = self.nets.language_model:beamsearch(roi_codes, beam_size)
   local beam_seqs = {}
   local beam_captions = {}
@@ -558,7 +558,7 @@ function DenseCapModel:forward_boxes_beams(input, roi_boxes, beam_size)
     end
   end
   -- reset beam_size and return
-  model.nets.language_model.beam_size = nil
+  self.nets.language_model.beam_size = nil
   return {objectness_scores, beam_seqs, roi_codes, beam_hidden_codes, beam_captions}
 end
 --[[
