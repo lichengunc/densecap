@@ -550,12 +550,10 @@ function DenseCapModel:forward_boxes_beams(input, roi_boxes, beam_size)
   end
   -- fetch hidden codes for each roi's beams
   local beam_hidden_codes = {}
-  if fetch_hidden_codes then
-    for i = 1, #Done_beams do
-      local seq = beam_seqs[i]
-      local image_vectors = roi_codes[{ {i}, {} }]:expand(seq:size(1), 4096)
-      beam_hidden_codes[i] = self.nets.language_model:extract_hidden(image_vectors, seq)
-    end
+  for i = 1, #Done_beams do
+    local seq = beam_seqs[i]
+    local image_vectors = roi_codes[{ {i}, {} }]:expand(seq:size(1), 4096)
+    beam_hidden_codes[i] = self.nets.language_model:extract_hidden(image_vectors, seq)
   end
   -- reset beam_size and return
   self.nets.language_model.beam_size = nil
