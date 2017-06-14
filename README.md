@@ -1,4 +1,4 @@
-#DenseCap
+# DenseCap
 
 ## Licheng's functions
 - ``LanguageModel:sample_with_hidden(image_vectors)`` returns ``seqs`` and ``endH`` that is the last-time hidden output.
