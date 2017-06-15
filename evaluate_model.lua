@@ -39,7 +39,7 @@ model:convert(dtype, use_cudnn)
 model:setTestArgs{
   rpn_nms_thresh=opt.rpn_nms_thresh,
   final_nms_thresh=opt.final_nms_thresh,
-  max_proposals=opt.num_proposals,
+  num_proposals=opt.num_proposals,
 }
 
 -- Set up the DataLoader; use HDF5 and JSON files from checkpoint if they were
